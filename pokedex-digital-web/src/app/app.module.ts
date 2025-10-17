@@ -9,17 +9,23 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatCardModule } from '@angular/material/card'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginService } from './components/login/login.service';
 import { RouterModule } from '@angular/router';
+import { PokemonCardComponent } from './components/home/pokemon-card/pokemon-card.component';
+import { PokemonService } from './components/home/pokemon-card/pokemon.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    PokemonCardComponent
   ],
   imports: [
     BrowserModule,
@@ -30,10 +36,13 @@ import { RouterModule } from '@angular/router';
     MatTabsModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatCardModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
     HttpClientModule,
     RouterModule
   ],
-  providers: [LoginService],
+  providers: [LoginService, PokemonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

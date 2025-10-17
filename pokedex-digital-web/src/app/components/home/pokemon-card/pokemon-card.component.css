@@ -1,0 +1,43 @@
+.detalhes-button{
+  background-color: #F44336;
+  color: #fff;
+  width: 100%;
+}
+
+.background-color-img-pokemon{
+  background-color: #ccc;
+}
+
+.type-style{
+  padding: 2px 8px;
+  border-radius: 12px;
+  color: white;
+}
+
+span.grass{
+  background-color: green;
+}
+
+span.poison{
+  background-color: purple;
+}
+
+span.water{
+  background-color: #6E8BC6;
+}
+
+span.fire{
+  background-color: #F17F2D;
+}
+
+span.flying{
+  background-color: #9E8FC5;
+}
+
+span.bug{
+  background-color: #AABA39;
+}
+
+span.normal{
+  background-color: #ACAA7A;
+}

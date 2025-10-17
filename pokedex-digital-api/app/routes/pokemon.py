@@ -3,6 +3,7 @@ import requests
 
 pokemon_bp = Blueprint("pokemon", __name__)
 POKEAPI_BASE_URL = "https://pokeapi.co/api/v2/pokemon"
+STATS_DESEJADOS = ['hp', 'attack', 'defense']
 
 @pokemon_bp.route("/", methods=['GET'])
 def listarPokemons():
@@ -26,12 +27,19 @@ def listarPokemons():
         codigo = detalhes['id']
         imagem_url = detalhes['sprites']['front_default']
         tipos = [t['type']['name'] for t in detalhes['types']]
+        
+        stats = {
+            s['stat']['name']: s['base_stat']
+            for s in detalhes['stats']
+            if s['stat']['name'] in STATS_DESEJADOS
+        }
 
         resultados.append({
-            "Codigo": codigo,
-            "Nome": nome,
-            "ImagemUrl": imagem_url,
-            "Tipos": tipos
+            "codigo": codigo,
+            "nome": nome,
+            "imagemUrl": imagem_url,
+            "tipos": tipos,
+            "stats": stats
         })
 
     return jsonify(resultados)

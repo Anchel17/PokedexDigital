@@ -1,0 +1,62 @@
+<div class="w-100">
+  <mat-card class="px-1 gap-2">
+    <mat-card-header>
+      <div class="w-100 d-flex justify-content-between">
+        <span>#{{pokemon.codigo.toString().padStart(3, '0')}}</span>
+        <div class="d-flex gap-3">
+          <span *ngFor="let t of pokemon.tipos" class="{{t}} type-style">
+            {{t}}
+          </span>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="d-flex justify-content-center background-color-img-pokemon">
+        <img class="w-75" src={{pokemon.imagemUrl}} alt="Pokémon imagem">
+      </div>
+
+      <p class="fw-bold text-center">{{pokemon.nome}}</p>
+
+      <div class="d-flex flex-column gap-2">
+        <div>
+          <div class="d-flex justify-content-between">
+            <span>HP</span>
+            <span>{{pokemon.stats.hp}}</span>
+          </div>
+          <mat-progress-bar
+          color="warn"
+          mode="determinate"
+          [value]="(pokemon.stats.hp / 255) * 100"
+          ></mat-progress-bar>
+        </div>
+        <div>
+          <div class="d-flex justify-content-between">
+            <span>Ataque</span>
+            <span>{{pokemon.stats.attack}}</span>
+          </div>
+          <mat-progress-bar
+          color="warn"
+          mode="determinate"
+          [value]="(pokemon.stats.attack / 255) * 100"
+          ></mat-progress-bar>
+        </div>
+        <div>
+          <div class="d-flex justify-content-between">
+            <span>Defesa</span>
+            <span>{{pokemon.stats.defense}}</span>
+          </div>
+          <mat-progress-bar
+          color="warn"
+          mode="determinate"
+          [value]="(pokemon.stats.defense / 255) * 100"
+          ></mat-progress-bar>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-center pt-4">
+        <button mat-button class="detalhes-button rounded-3">Ver detalhes</button>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+</div>

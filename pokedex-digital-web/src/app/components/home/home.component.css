@@ -1,0 +1,28 @@
+.header{
+  background-color: #f0802b;
+  color: #fff;
+  padding: 1rem 10%;
+}
+
+.pokemons-info{
+  background-color:#7339a8;
+  color: #fff;
+  padding: 1rem 10%;
+}
+
+.pokemons-info-numbers{
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.pokemon-cards-container{
+  padding: 1rem 10%;
+}
+
+.background-principal{
+  background-color: #ffedd6;
+}
+
+.pokemon-card-width{
+  width: 23%;
+}
