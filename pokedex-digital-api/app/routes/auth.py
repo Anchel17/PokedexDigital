@@ -10,10 +10,10 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json() or {}
-    nome = data.get("Nome")
-    login = data.get("Login")
-    email = data.get("Email")
-    senha = data.get("Senha")
+    nome = data.get("nome")
+    login = data.get("login")
+    email = data.get("email")
+    senha = data.get("senha")
 
     if not all([nome, login, email, senha]):
         return jsonify({"msg": "Nome, Login, Email e Senha são obrigatórios"}), 400
@@ -31,8 +31,8 @@ def register():
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json() or {}
-    login = data.get("Login")
-    senha = data.get("Senha")
+    login = data.get("login")
+    senha = data.get("senha")
 
     if not all([login, senha]):
         return jsonify({"msg": "Login e Senha são obrigatórios"}), 400
