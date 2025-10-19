@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PokemonDTO } from 'src/app/DTO/PokemonDTO';
 import { PokemonService } from './pokemon-card/pokemon.service';
 
@@ -9,25 +9,33 @@ import { PokemonService } from './pokemon-card/pokemon.service';
 })
 export class HomeComponent {
   pokemons: PokemonDTO[] = [];
-  isLoading = true;
+  filtroAtual: 'todos' | 'favoritos' | 'batalha' = 'todos';
+  isLoading = false;
 
   constructor(private pokemonService: PokemonService){}
 
   ngOnInit(){
-    this.carregarPokemons();
+    this.carregarPokemons('todos')
   }
 
-  private carregarPokemons(){
-    this.isLoading = true;
+  public onPokemonUpdated(codigo: number) {
+    this.pokemons = this.pokemons.filter(p => p.codigo != codigo);
+  }
 
-    this.pokemonService.buscarPokemons().subscribe({
-      next: (data: any) => {
-        this.pokemons = data
-        this.isLoading = false
+  public carregarPokemons(filtro: 'todos' | 'favoritos' | 'batalha'){
+    this.isLoading = true;
+    this.filtroAtual = filtro;
+
+    const pokemonsObservable = filtro === 'todos' ? this.pokemonService.buscarPokemons()
+    : this.pokemonService.buscarPokemonsComFiltro(filtro);
+
+    pokemonsObservable.subscribe({
+      next: (data) => {
+        this.pokemons = data;
+        this.isLoading = false;
       },
       error: (err) => {
-        console.log("Erro ao carregar pokemons", err)
-        this.isLoading = false
+        this.isLoading = false;
       }
     })
   }

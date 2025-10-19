@@ -26,3 +26,8 @@
 .pokemon-card-width{
   width: 23%;
 }
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}

@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from ..db import db
 from ..models import Usuario
 from ..utils import hash_password, verify_password
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity, jwt_required
 from datetime import timedelta
 
 auth_bp = Blueprint("auth", __name__)
@@ -42,6 +42,25 @@ def login():
     if not user or not verify_password(user.Senha, senha):
         return jsonify({"msg": "Credenciais inválidas."}), 401
     
-    access_token = create_access_token(identity=user.IDUsuario, expires_delta=timedelta(days=1))
+    access_token = create_access_token(identity=str(user.IDUsuario), expires_delta=timedelta(days=1))
+    response = jsonify({"msg": "Login efetuado"})
+    set_access_cookies(response, access_token)
+
+    return response, 200
+
+@auth_bp.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"msg": "Logout efetuado"})
+    unset_jwt_cookies(response)
+    return response, 200
+
+@auth_bp.route("/me", methods=["GET"])
+@jwt_required()
+def me():
+    currentUserId = get_jwt_identity()
+    user = Usuario.query.get(currentUserId)
+
+    if not user:
+        return jsonify(404)
     
-    return jsonify({"access_token": access_token, "IDUsuario": user.IDUsuario, "Nome": user.Nome})
+    return jsonify(200)

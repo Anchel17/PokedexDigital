@@ -11,7 +11,9 @@
       </div>
     </mat-card-header>
     <mat-card-content>
-      <div class="d-flex justify-content-center background-color-img-pokemon">
+      <div class="d-flex justify-content-center background-color-img-pokemon position-relative">
+        <mat-icon *ngIf="pokemon.favorito" class="posicao-favorito cor-favorito" (click)="favoritarPokemon()">favorite</mat-icon>
+        <mat-icon *ngIf="!pokemon.favorito" class="posicao-favorito" (click)="favoritarPokemon()">favorite_border</mat-icon>
         <img class="w-75" src={{pokemon.imagemUrl}} alt="Pokémon imagem">
       </div>
 

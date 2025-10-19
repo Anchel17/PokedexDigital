@@ -7,5 +7,7 @@ export class PokemonDTO{
       defense: number,
       hp: number
   };
-  tipos: string[]
+  tipos: string[];
+  favorito: boolean;
+  inGrupoDeBatalha: boolean;
 }

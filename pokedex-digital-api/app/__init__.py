@@ -10,12 +10,20 @@ def create_app():
 
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///pokedex.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["JWT_SECRET_KEY"] = "key_trocar_para_producao"
 
+    app.config["JWT_SECRET_KEY"] = "key_trocar_para_producao"
+    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+    app.config["JWT_ACCESS_COOKIE_PATH"] = "/"
+    app.config["JWT_COOKIE_SAMESITE"] = "Lax"
+    app.config["JWT_COOKIE_SAMESITE"] = "None"
+    app.config["JWT_COOKIE_SECURE"] = True
+    app.config["JWT_COOKIE_CSRF_PROTECT"] = False
+
+
+    CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}}, supports_credentials=True)
+    
     db.init_app(app)
     jwt = JWTManager(app)
-
-    CORS(app, resources={r"/*": {"origins": "http://localhost:4200"}})
 
     app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(pokemon_bp, url_prefix="/pokemon")
