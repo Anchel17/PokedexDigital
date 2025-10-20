@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PokemonDTO } from 'src/app/DTO/PokemonDTO';
 import { PokemonService } from './pokemon-card/pokemon.service';
 import { PokemonUpdate } from 'src/app/DTO/PokemonUpdate';
+import { LoginService } from '../login/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +15,7 @@ export class HomeComponent {
   filtroAtual: 'todos' | 'favoritos' | 'batalha' = 'todos';
   isLoading = false;
 
-  constructor(private pokemonService: PokemonService){}
+  constructor(private pokemonService: PokemonService, private loginService: LoginService, private router: Router){}
 
   ngOnInit(){
     this.carregarPokemons('todos')
@@ -43,5 +45,21 @@ export class HomeComponent {
         this.isLoading = false;
       }
     })
+  }
+
+  public logout(){
+    this.loginService.deslogar().subscribe((response) => {
+      this.router.navigate(['/login']);
+    });
+  }
+
+  public getMessageSemPokemons(){
+    return this.filtroAtual === 'favoritos' ? "Sem pokémons favoritos" : "Sem pokémons no grupo de batalha";
+  }
+
+  public getQtdTipos(){
+    const tipos = new Set(this.pokemons.flatMap(p => p.tipos));
+
+    return tipos.size;
   }
 }

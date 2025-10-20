@@ -19,14 +19,14 @@ def register():
         return jsonify({"msg": "Nome, Login, Email e Senha são obrigatórios"}), 400
     
     if Usuario.query.filter((Usuario.Login==login) | (Usuario.Email==email)).first():
-        return jsonify({"msg": "Login ou Email já cadastrado"}), 400
+        return jsonify({"msg":"Login ou Email ja cadastrado"}), 400
     
     user = Usuario(Nome=nome, Login=login, Email=email, Senha=hash_password(senha))
 
     db.session.add(user)
     db.session.commit()
 
-    return jsonify({"msg": "Usuario criado", "IDUsuario": user.IDUsuario}), 201
+    return jsonify({"msg": "Usuario criado com sucesso", "IDUsuario": user.IDUsuario}), 201
 
 @auth_bp.route("/login", methods=["POST"])
 def login():

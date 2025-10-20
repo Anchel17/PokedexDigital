@@ -1,23 +1,30 @@
 <div class="background-principal">
-  <div class="w-100 d-flex flex-column header">
-    <h1>Pokédex Digital</h1>
-    <p>Explore o mundo dos Pokémon com nossa Pokédex interativa. Descubra <br/>
-    informações detalhadas sobre cada criatura.
-    </p>
+  <div class="w-100 d-flex justify-content-between align-items-center header">
+    <div class="d-flex flex-column">
+      <h1>Pokédex Digital</h1>
+      <p>Explore o mundo dos Pokémon com nossa Pokédex interativa. Descubra <br/>
+      informações detalhadas sobre cada criatura.
+      </p>
+    </div>
+
+    <button class="text-white logout-button d-flex flex-column align-items-center justify-content-center" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sair</span>
+    </button>
   </div>
 
   <div class="w-100 d-flex pokemons-info gap-5">
-    <div class="d-flex flex-column align-items-center">
-      <span class="pokemons-info-numbers">20</span>
+    <div *ngIf="isLoading">
+      <mat-progress-spinner mode="indeterminate" diameter="60" color="accent"></mat-progress-spinner>
+    </div>
+
+    <div class="d-flex flex-column align-items-center" *ngIf="!isLoading">
+      <span class="pokemons-info-numbers">{{pokemons.length}}</span>
       <span>Pokémon</span>
     </div>
-    <div class="d-flex flex-column align-items-center">
-      <span class="pokemons-info-numbers">18</span>
+    <div class="d-flex flex-column align-items-center" *ngIf="!isLoading">
+      <span class="pokemons-info-numbers">{{getQtdTipos()}}</span>
       <span>Tipos</span>
-    </div>
-    <div class="d-flex flex-column align-items-center">
-      <span class="pokemons-info-numbers">9</span>
-      <span>Gerações</span>
     </div>
   </div>
 
@@ -29,16 +36,19 @@
       mat-flat-button
       [color]="filtroAtual === 'todos' ? 'primary' : ''"
       (click)="carregarPokemons('todos')"
+      [disabled]="isLoading"
       >Todos</button>
       <button
       mat-flat-button
       [color]="filtroAtual === 'favoritos' ? 'accent' : ''"
       (click)="carregarPokemons('favoritos')"
+      [disabled]="isLoading"
       >Favoritos</button>
       <button
       mat-flat-button
       [color]="filtroAtual === 'batalha' ? 'warn' : ''"
       (click)="carregarPokemons('batalha')"
+      [disabled]="isLoading"
       >Grupo de Batalha</button>
     </div>
 
@@ -46,7 +56,13 @@
       <mat-progress-spinner mode="indeterminate" diameter="60" color="warn"></mat-progress-spinner>
     </div>
 
+
     <div class="d-flex flex-wrap gap-4" *ngIf="!isLoading">
+
+      <div *ngIf="pokemons.length < 1" class="w-100 d-flex justify-content-center pt-5">
+        <span class="fw-bold">{{getMessageSemPokemons()}}</span>
+      </div>
+
       <app-pokemon-card
       class="pokemon-card-width"
       *ngFor="let p of pokemons"

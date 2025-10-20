@@ -163,14 +163,12 @@ def addOrRemovePokemonBatalha():
         
         return jsonify({"msg": "Pokémon removido do grupo de batalha", "status": 200}), 200
     
-    if not pokemonJaAdicionado.GrupoBatalha:
-        countBatalha = PokemonUsuario.query.filter_by(IDUsuario=userId, GrupoBatalha=True).count()
-
-        if countBatalha >= 6:
-            return jsonify({
-                "msg": "Limite de pokémons no grupo de batalha atingido.",
-                "status": 400
-            }), 400
+    countBatalha = PokemonUsuario.query.filter_by(IDUsuario=userId, GrupoBatalha=True).count()
+    if countBatalha >= 6:
+        return jsonify({
+            "msg": "Limite de pokémons no grupo de batalha atingido.",
+            "status": 400
+        }), 400
     
     tipoObj = None
     if tipoDescricao:

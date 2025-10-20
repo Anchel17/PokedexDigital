@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormGroup, NgForm, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,8 @@ export class LoginComponent {
   public loginFormGroup: FormGroup;
   public cadastroFormGroup: FormGroup;
 
-  constructor(private fb: NonNullableFormBuilder, private loginService: LoginService, private router: Router){}
+  constructor(private fb: NonNullableFormBuilder, private loginService: LoginService,
+    private router: Router, private snackBar: MatSnackBar){}
 
   ngOnInit(){
     this.inicializarForms();
@@ -37,10 +39,15 @@ export class LoginComponent {
     })
     .subscribe((response: string) => {
       if(response){
-        console.log(response)
         this.router.navigate(['/']);
       }
-    }, (err) => console.log(err))
+    }, (err) => {
+        this.snackBar.open("Credenciais inválidas.", '', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        })
+    })
   }
 
   onSubmitCadastro(){
@@ -54,13 +61,21 @@ export class LoginComponent {
       login: this.cadastroFormGroup.value.login,
       senha: this.cadastroFormGroup.value.senha
     })
-    .subscribe((response: string) => {
+    .subscribe((response: any) => {
       if(response){
-        console.log(response)
-        //Adicionar lógica de mensagem de sucesso
+        this.snackBar.open("Usuário criado com sucesso!", '', {
+          duration: 2000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        })
       }
-    }, (err) => console.log(err))
-    //chama o service para cadastro
+    }, (err) => {
+        this.snackBar.open("Login ou email já cadastrado.", '', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        })
+    })
   }
 
   private inicializarForms(){

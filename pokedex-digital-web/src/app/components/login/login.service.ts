@@ -23,4 +23,8 @@ export class LoginService {
   public verificarSessaoAtiva(){
     return this.httpClient.get(this.API_URL + 'me', {withCredentials: true});
   }
+
+  public deslogar(){
+    return this.httpClient.post(this.API_URL + "logout", {} , {withCredentials: true});
+  }
 }
