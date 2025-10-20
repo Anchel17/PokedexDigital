@@ -37,9 +37,9 @@ Antes de começar, garanta que possui instalado:
 
 Abra a pasta pokedex-digital-api com seu terminal de preferência
 - Crie um ambiente virtual: python -m venv venv
-- Ative o ambiente virtual: 
--- Windows: venv\Scripts\activate
--- Linux: source venv/bin/activate
+- Ative o ambiente virtual:
+  - Windows: venv\Scripts\activate
+  - Linux: source venv/bin/activate
 
 - Instale as dependências: pip install -r requirements.txt
 - Execute a API: python run.py
@@ -59,10 +59,10 @@ O app estará disponível em:
 
 # 🧪 Funcionalidades Principais
 
-✅ Cadastro e login de usuário
-✅ Listagem de Pokémons com imagens
-✅ Favoritar / desfavoritar Pokémons
-✅ Adicionar / remover do grupo de batalha (limite de 6)
-✅ Filtros dinâmicos: Todos, Favoritos, Grupo de Batalha
-✅ Feedback visual com MatSnackBar
-✅ Backend persistente em SQLite
+- ✅ Cadastro e login de usuário
+- ✅ Listagem de Pokémons com imagens
+- ✅ Favoritar / desfavoritar Pokémons
+- ✅ Adicionar / remover do grupo de batalha (limite de 6)
+- ✅ Filtros dinâmicos: Todos, Favoritos, Grupo de Batalha
+- ✅ Feedback visual com MatSnackBar
+- ✅ Backend persistente em SQLite
