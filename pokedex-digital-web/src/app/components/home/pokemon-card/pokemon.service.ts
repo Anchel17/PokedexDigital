@@ -20,4 +20,8 @@ export class PokemonService{
   public favoritarPokemon(pokemon: PokemonDTO){
     return this.httpClient.post(this.API_URL + "favorite", pokemon, {withCredentials: true})
   }
+
+  public addOrRemovePokemonBatalha(pokemon: PokemonDTO){
+    return this.httpClient.post(this.API_URL + "battle", pokemon, {withCredentials: true})
+  }
 }

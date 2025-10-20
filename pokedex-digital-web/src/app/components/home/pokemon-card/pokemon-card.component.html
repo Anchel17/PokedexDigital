@@ -14,6 +14,10 @@
       <div class="d-flex justify-content-center background-color-img-pokemon position-relative">
         <mat-icon *ngIf="pokemon.favorito" class="posicao-favorito cor-favorito" (click)="favoritarPokemon()">favorite</mat-icon>
         <mat-icon *ngIf="!pokemon.favorito" class="posicao-favorito" (click)="favoritarPokemon()">favorite_border</mat-icon>
+        <img *ngIf="pokemon.inGrupoDeBatalha" src="../../../../assets/crossed-swords-icon.svg"
+        class="posicao-batalha" (click)="pokemonBattle()">
+        <img *ngIf="!pokemon.inGrupoDeBatalha" src="../../../../assets/crossed-swords-icon-no-battle.svg"
+        class="posicao-batalha" (click)="pokemonBattle()">
         <img class="w-75" src={{pokemon.imagemUrl}} alt="Pokémon imagem">
       </div>
 

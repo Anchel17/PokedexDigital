@@ -20,6 +20,13 @@
   top: 4px;
 }
 
+.posicao-batalha{
+  position: absolute;
+  width: 24px;
+  right: 8px;
+  top: 6px;
+}
+
 .cor-favorito{
   color: #ff0000;
 }

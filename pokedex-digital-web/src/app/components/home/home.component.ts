@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PokemonDTO } from 'src/app/DTO/PokemonDTO';
 import { PokemonService } from './pokemon-card/pokemon.service';
+import { PokemonUpdate } from 'src/app/DTO/PokemonUpdate';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +19,12 @@ export class HomeComponent {
     this.carregarPokemons('todos')
   }
 
-  public onPokemonUpdated(codigo: number) {
-    this.pokemons = this.pokemons.filter(p => p.codigo != codigo);
+  public onPokemonUpdated(pokemonUpdate: PokemonUpdate) {
+    if( this.filtroAtual != 'todos' && pokemonUpdate.filtro === this.filtroAtual){
+      this.pokemons = this.pokemons.filter(p => p.codigo != pokemonUpdate.codigo);
+
+      return;
+    }
   }
 
   public carregarPokemons(filtro: 'todos' | 'favoritos' | 'batalha'){

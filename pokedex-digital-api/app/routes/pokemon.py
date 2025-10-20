@@ -126,6 +126,78 @@ def favoritarPokemon():
 
     return jsonify({"msg": "Pokemon adicionado aos favoritos"}), 201
 
+@pokemon_bp.route("/battle", methods=['POST'])
+@jwt_required()
+def addOrRemovePokemonBatalha():
+    userId = get_jwt_identity()
+    data = request.get_json() or {}
+
+    if not data:
+        return jsonify({"msg": "JSON inválido"}), 400
+
+    codigo = data.get("codigo")
+    nome = data.get("nome")
+    imagemUrl = data.get("imagemUrl")
+    tipoDescricao = data.get("tipos")
+
+    if not all([codigo, nome]):
+        return jsonify({"msg": "Codigo e Nome são obrigatórios"}), 400
+    
+    pokemonJaAdicionado = PokemonUsuario.query.filter_by(IDUsuario=userId, Codigo=str(codigo)).first()
+
+    if pokemonJaAdicionado:
+        if not pokemonJaAdicionado.GrupoBatalha:
+                countBatalha = PokemonUsuario.query.filter_by(IDUsuario=userId, GrupoBatalha=True).count()
+
+                if countBatalha >= 6:
+                    return jsonify({
+                        "msg": "Limite de pokémons no grupo de batalha atingido.",
+                        "status": 400
+                    }), 400
+
+        pokemonJaAdicionado.GrupoBatalha = not bool(pokemonJaAdicionado.GrupoBatalha)
+        db.session.commit()
+
+        if pokemonJaAdicionado.GrupoBatalha == True:
+            return jsonify({"msg": "Pokémon adicionado ao grupo de batalha", "status": 200}), 200
+        
+        return jsonify({"msg": "Pokémon removido do grupo de batalha", "status": 200}), 200
+    
+    if not pokemonJaAdicionado.GrupoBatalha:
+        countBatalha = PokemonUsuario.query.filter_by(IDUsuario=userId, GrupoBatalha=True).count()
+
+        if countBatalha >= 6:
+            return jsonify({
+                "msg": "Limite de pokémons no grupo de batalha atingido.",
+                "status": 400
+            }), 400
+    
+    tipoObj = None
+    if tipoDescricao:
+        for descricao in tipoDescricao:
+            tipoObj = TipoPokemon.query.filter_by(Descricao=descricao).first()
+
+            if not tipoObj:
+                tipoObj = TipoPokemon(Descricao=descricao)
+                db.session.add(tipoObj)
+        
+        db.session.flush()
+
+    novoPokemonFavorito = PokemonUsuario(
+        IDUsuario=userId,
+        IDTipoPokemon=tipoObj.IDTipoPokemon if tipoObj else None,
+        Codigo=str(codigo),
+        ImagemUrl=imagemUrl,
+        Nome=nome,
+        GrupoBatalha=True,
+        Favorito=False
+    )
+
+    db.session.add(novoPokemonFavorito)
+    db.session.commit()
+
+    return jsonify({"msg": "Pokemon adicionado ao grupo de batalha"}), 201
+
 @pokemon_bp.route("/filtrar", methods=['GET'])
 @jwt_required()
 def listarPokemonsComFiltro():
@@ -147,7 +219,6 @@ def listarPokemonsComFiltro():
         if detalhesResponse.status_code != 200:
             continue
         
-
         detalhes = detalhesResponse.json()
         imagem_url = detalhes["sprites"]["front_default"]
         tipos = [t["type"]["name"] for t in detalhes["types"]]
@@ -164,6 +235,6 @@ def listarPokemonsComFiltro():
             "tipos": tipos,
             "stats": stats,
             "favorito": p.Favorito,
-            "grupoBatalha": p.GrupoBatalha,
+            "inGrupoDeBatalha": p.GrupoBatalha,
         })
     return jsonify(resultados), 200

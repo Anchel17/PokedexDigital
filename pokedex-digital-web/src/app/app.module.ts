@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatIconModule } from '@angular/material/icon'
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -41,6 +42,7 @@ import { PokemonService } from './components/home/pokemon-card/pokemon.service';
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    MatSnackBarModule,
     HttpClientModule,
     RouterModule
   ],
